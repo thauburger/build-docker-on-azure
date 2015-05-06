@@ -1,0 +1,12 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "A simple node.js express server for Azure News demo front-end",
+  "author": "Tom Hauburger <thauburg@microsoft.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.12.3",
+    "mongodb": "^2.0.28",
+    "redis": "^0.12.1"
+  }
+}

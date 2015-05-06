@@ -1,0 +1,2 @@
+#!/bin/sh
+exec consul-template -consul=consul:8500 -template "/etc/consul-templates/nginx.conf-template:/etc/nginx/conf.d/web.conf:sv hug nginx"

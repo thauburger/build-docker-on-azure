@@ -1,0 +1,48 @@
+# docker-compose.yml
+# Azure News - SMS story collector
+
+# db:
+# library/mongo
+# Base mongodb container, exposing port 27017
+
+db:
+  command: --nojournal --smallfiles --quiet
+  image: mongo
+
+# cache:
+# library/redis
+# Base redis container, exposing port 6379
+
+cache:
+  image: redis
+
+# web:
+# web - built from web/Dockerfile
+# Serves Azure News front-end, port 3000
+
+web:
+  build: web/
+  links:
+    - cache
+    - db
+  ports:
+    - "3000" # allows docker to assign random port
+  environment:
+    SERVICE_80_NAME: http
+    SERVICE_NAME: web
+    SERVICE_TAGS: production
+
+# sms:
+# sms - built from sms/Dockerfile
+# Receives and stores SMS news submissions, port 4000 
+
+sms:
+  build: sms/
+  links:
+    - db
+  ports:
+    - "4000:4000"
+  environment:
+    SERVICE_80_NAME: http
+    SERVICE_NAME: sms
+    SERVICE_NAME: production

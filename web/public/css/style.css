@@ -1,0 +1,126 @@
+* { margin:0; padding:0;}
+
+*, *:before, *:after { box-sizing: inherit;}
+
+html {
+  box-sizing: border-box;
+  padding-top: 10px;
+  font-family: wf_segoe-ui_normal,"Segoe UI","Segoe WP",Arial,sans-serif;
+  font-weight: 400;
+}
+
+html, body {
+  color: #444444;
+  min-height: 100%;
+  height: 100%;
+}
+
+.container {
+  max-width: 1020px;
+  margin: 0 auto;
+  min-height: 100%;
+  background-color: #F6F6EF;
+}
+
+.header-bar {
+  position: relative;
+  height: 35px;
+  padding: 2px 15px;
+  color: white;
+  background-color: #00ABEC;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 20px;
+  padding-right: 15px;
+}
+
+h1, .navigation {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.navigation ul li {
+  display: inline-block;
+  padding-left: 5px;
+  color: #444444;
+}
+
+.navigation ul li a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 14px;
+  padding-right: 8px;
+}
+
+.navigation ul li a:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.sms-icon {
+  position: absolute;
+  background-color: #0088EC;
+  border-radius: 2px;
+  padding: 4px 8px;
+  font-size: 14px;
+  right: 4px;
+  top: 4px;
+}
+
+.sms-icon:hover {
+  cursor: pointer;
+  background-color: #0077EC;
+}
+
+.content-area {
+  padding-top: 2px;
+}
+
+.storyItem {
+  list-style-type: none;
+  height: 32px;
+  padding: 8px 5px;
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+.storyItem .storyNumber {
+  display: inline-block;
+  width: 24px;
+  margin-right: 4px;
+  text-align: right;
+  font-size: 15px;
+}
+
+.storyItem img {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+  width: 12px;
+  height: 12px;
+  
+}
+.storyItem a {
+  text-decoration: none;
+  font-size: 18px;
+  color: inherit;
+}
+
+.storyItem a.no-link:hover {
+  cursor: default;
+}
+
+.story p {
+  font-size: 12px;
+  padding-left: 52px;
+  color: #777;
+}
+
+.story .preview {
+  display: inline-block;
+  padding-left: 4px;
+  font-size: 14px;
+  color: #777;
+}

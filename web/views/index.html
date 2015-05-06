@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Azure News</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/segoe-ui-normal.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/segoe-ui-light.css"/>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-bar">
+        <h1>azure news</h1>
+        <div class="navigation">
+          <ul>
+            <li><a href="#">new stories</a><span class="nav-divider">|</span></a></li>
+            <li><a href="http://azure.microsoft.com/en-us/documentation/templates/" target="_blank">templates</a><span class="nav-divider">|</span></li>
+            <li><a href="http://twitter.com/thauburger" target="_blank">say hi: @thauburger</a></li>
+          </ul>
+        </div>
+        <div class="sms-icon">SMS</div>
+      </div>
+      
+      <!-- react.js mounting point for news stories -->
+      <div class="content-area"></div>
+      
+    </div>
+    
+    <script src="/js/JSXTransformer.js"></script>
+    <script src="/js/react.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script type="text/javascript">
+      
+      $(document).ready(function() {
+        $('.sms-icon').click(function () {
+          $(this).html('SMS: (203) 802-6275').css({"background-color": "#007788"});
+        });
+      });
+      
+    </script>
+    <script type="text/jsx">
+      
+      var StoryList = React.createClass({
+        
+        getInitialState: function() {
+          this._getUpdates();
+          this._startRefresh();
+          return {
+            stories:[]
+          };
+        },
+        
+        _getUpdates: function(fn) {
+          var self = this;
+          $.getJSON("/updates", function(data) {
+            return (fn ? fn(data) : self.setState({stories:data}));
+          });
+        },
+        
+        _startRefresh: function() {
+          var self = this;
+          setInterval(function() {
+            self._getUpdates(function(data) {
+              self.setState({stories: data});
+            });
+          }, 2000);
+        },
+        
+        render: function() {
+        
+          var storyItems = this.state.stories.map(function(story, i) {
+            story = JSON.parse(story);
+            var url = story.url || '#';
+            var urlPreview = story.url ? "(" + story.host + ")" : "";
+            var number = i+1 + '.';
+            var imgSource = "/img/cloud.png";
+            
+            if (story.url) {
+              return (
+                <div className="story"> 
+                  <li className="storyItem"><span className="storyNumber">{number}</span><img src={imgSource} /><a href={url} target="_blank">{story.title}</a><span className="preview">{urlPreview}</span></li>
+                  <p>Sent from {story.fromCity}, {story.fromCountry} | 0 comments</p>
+                </div>
+              );
+            }
+            
+            return (
+              <div className="story"> 
+                <li className="storyItem"><span className="storyNumber">{number}</span><img src={imgSource} /><a className="no-link" href={url}>{story.title}</a><span className="preview">{urlPreview}</span></li>
+                <p>Sent from {story.fromCity}, {story.fromCountry} | 0 comments</p>
+              </div>
+            );
+          });
+          
+          return (
+            <div className="stories">
+              {storyItems}
+            </div>
+          );
+        }
+      
+      });
+      
+      React.render(<StoryList />, $(".content-area").get(0));
+      
+    </script>
+  </body>
+</html>

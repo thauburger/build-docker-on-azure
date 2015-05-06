@@ -1,0 +1,14 @@
+{
+  "name": "sms",
+  "version": "1.0.0",
+  "description": "SMS server for handling incoming stories",
+  "main": "server.js",
+  "scripts": {},
+  "author": "Tom Hauburger <thauburg@microsoft.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.12.3",
+    "mongodb": "^2.0.28",
+    "twilio": "^2.1.0"
+  }
+}

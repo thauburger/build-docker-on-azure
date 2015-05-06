@@ -1,0 +1,47 @@
+# lb/docker-compose.yml
+# deploy an NGINX load balancer, using Consul and 
+# Registrator for service discovery
+
+# This demo uses a single consul instance, although a 
+# production environment would likely have 3-5 for
+# failover protection.
+
+
+# NGINX load-balancer with consul-templates installed
+
+lb:
+  build: .
+  links:
+  - consul
+  ports:
+  - "80:80"
+  environment:
+    DOCKER_HOST_AZURE_IP: # will be populated with environment variable on docker-compose client
+
+
+# consul: service discovery store
+# we open 8400(RPC), 8500(HTTP), 8600(DNS)
+
+consul:
+  command: -server -bootstrap-expect 1 -ui-dir /ui
+  image: progrium/consul:latest
+  ports:
+  - "8300:8300"
+  - "8400:8400"
+  - "8500:8500"
+  - "8600:53/udp"
+  
+  
+# registrator
+# listens to docker daemon for new container creation
+# and automatically updates the consul service catalog.
+# This allows us to dynamically re-configure the
+# load-balancer.
+
+registrator:
+  command: consul://consul:8500 # will default to looking for consul on same host
+  image: progrium/registrator:latest
+  links:
+  - consul
+  volumes:
+  - "/var/run/docker.sock:/tmp/docker.sock"  
