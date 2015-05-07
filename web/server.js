@@ -37,8 +37,11 @@ mongoClient.connect(mongoConnection, function(err, database) {
   }
   mongoDB = database;
   cache = new Cache(cacheId, cacheItemLimit, redisIP);
-  cache.refreshCache(mongoDB, storiesPerPage, function (err) {
-    if (!err) { console.log('Cache initialized'); }
+  cache.writeToCache(sampleStories, function (err) {
+    if (err) { return console.error('Cache prep failed: ', err);}
+    cache.refreshCache(mongoDB, storiesPerPage, function (err) {
+      if (!err) { console.log('Cache initialized'); }
+    });
   });
 });
 
@@ -76,7 +79,7 @@ app.get('/', function(req, res) {
 // Start server + start pulling from database
 
 var port = process.env.PORT || 3000;
-var refreshInterval = process.env.REFRESH_INTERVAL || 5000;
+var refreshInterval = process.env.REFRESH_INTERVAL || 2500;
 
 var server = app.listen(port, function () {
   console.log('Azure News server running on port: ', port);

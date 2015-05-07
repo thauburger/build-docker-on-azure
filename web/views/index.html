@@ -54,6 +54,7 @@
         _getUpdates: function(fn) {
           var self = this;
           $.getJSON("/updates", function(data) {
+            console.log(data);
             return (fn ? fn(data) : self.setState({stories:data}));
           });
         },
@@ -70,7 +71,9 @@
         render: function() {
         
           var storyItems = this.state.stories.map(function(story, i) {
-            story = JSON.parse(story);
+            if (typeof story === "string") {
+              story = JSON.parse(story);
+            }
             var url = story.url || '#';
             var urlPreview = story.url ? "(" + story.host + ")" : "";
             var number = i+1 + '.';
